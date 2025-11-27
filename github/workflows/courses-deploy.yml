@@ -1,0 +1,39 @@
+name: Courses CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout repository
+      - uses: actions/checkout@v3
+
+      # Step 2: Setup Python
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Step 4: Build Docker image
+      - name: Build Docker image
+        run: docker build -t course-service .
+
+      # Step 5: Deploy to Render
+      - name: Deploy to Render
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.srv-d4k63vre5dus73f17f90 }}
+          api-key: ${{ secrets.projectcourse }}
