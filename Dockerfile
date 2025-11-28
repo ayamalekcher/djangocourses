@@ -16,13 +16,4 @@ EXPOSE 8000
 
 # Run Django server
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-FROM prom/prometheus:latest
 
-COPY prometheus.yml /etc/prometheus/prometheus.yml
-
-EXPOSE 9091
-
-CMD [ 
-  "--config.file=/etc/prometheus/prometheus.yml",
-  "--web.listen-address=0.0.0.0:9091"
-]
