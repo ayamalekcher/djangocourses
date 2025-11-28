@@ -3,16 +3,17 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-^@_15gd+7!w^9%bj82n94)xba4=g@1mndy^&7s!lm3xu)4$+-8'
-DEBUG = True
+DEBUG = True  # Mettre False en production
 
-ALLOWED_HOSTS = ["*"]  # يمكنك تضييقها لاحقاً
-
-
+ALLOWED_HOSTS = ["*"]  # Tu peux limiter aux domaines Render plus tard
 
 # ===============================
-# 🔹 APPLICATIONS
+# APPLICATIONS
 # ===============================
 INSTALLED_APPS = [
+    # Prometheus doit être en premier
+    'django_prometheus',
+
     # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -21,47 +22,35 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Prometheus (قبل التطبيقات الأخرى)
-    'django_prometheus',
-
-    # مشاريعك
+    # Tes apps
     'rest_framework',
     'corsheaders',
     'courses',
 ]
 
-
-
 # ===============================
-# 🔹 MIDDLEWARE
+# MIDDLEWARE
 # ===============================
 MIDDLEWARE = [
-    # Prometheus middleware (يجب أن يكون الأول)
-    'django_prometheus.middleware.PrometheusBeforeMiddleware',
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',  # doit être premier
 
-    # CORS
     'corsheaders.middleware.CorsMiddleware',
 
-    # Django middlewares
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    # Prometheus (يجب أن يكون الأخير)
-    'django_prometheus.middleware.PrometheusAfterMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',   # doit être dernier
 ]
-
 
 ROOT_URLCONF = 'course_service.urls'
 
-
-
 # ===============================
-# 🔹 TEMPLATES
+# TEMPLATES
 # ===============================
 TEMPLATES = [
     {
@@ -80,10 +69,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'course_service.wsgi.application'
 
-
-
 # ===============================
-# 🔹 DATABASE CONFIG
+# DATABASE
 # ===============================
 DATABASES = {
     'default': {
@@ -97,42 +84,30 @@ DATABASES = {
     }
 }
 
-
-
 # ===============================
-# 🔹 LANGUAGE & TIMEZONE
+# LANGUAGE & TIMEZONE
 # ===============================
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-
-
 # ===============================
-# 🔹 STATIC
+# STATIC
 # ===============================
 STATIC_URL = 'static/'
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-
 # ===============================
-# 🔹 CORS SETTINGS
+# CORS
 # ===============================
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",   # React frontend
-    "http://localhost:8080",   # Spring Boot
+    "http://localhost:3000",
+    "http://localhost:8080",
 ]
 
-# لتسهيل العمل (يمكنك استعماله أثناء التطوير فقط)
-# CORS_ALLOW_ALL_ORIGINS = True
-
-
-
 # ===============================
-# 🔹 REST FRAMEWORK
+# REST FRAMEWORK
 # ===============================
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
