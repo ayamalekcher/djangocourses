@@ -66,14 +66,13 @@ WSGI_APPLICATION = 'course_service.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mon_django_db',  # اسم قاعدة البيانات
-        'USER': 'mon_django_db_user',  # Username
-        'PASSWORD': 'AGVn3JEEwbYE1XfROGmEEJFv3Tliown2',  # Password
-        'HOST': 'dpg-d4jeebeuk2gs73bj5epg-a.oregon-postgres.render.com',  # Host كامل
-        'PORT': '5432',  # Port PostgreSQL
+        'NAME': 'django_course_4p3t',
+        'USER': 'django_course_4p3t_user',
+        'PASSWORD': 'WYuwzTOFSSsNGGCAQQM7vvdOfYohRU95',
+        'HOST': 'dpg-d4kpunfpm1nc738drqg0-a.oregon-postgres.render.com',
+        'PORT': '5432',
         'OPTIONS': {
-            'options': '-c search_path=courses',  # schema الخاصة بـ Django Courses
-            'sslmode': 'require'  # ضروري للاتصال الآمن مع Render
+            'sslmode': 'require'
         }
     }
 }
