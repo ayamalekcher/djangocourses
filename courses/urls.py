@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+     path('', include('django_prometheus.urls')),
     path('', views.list_courses),            # GET /courses/ → قائمة الكورسات
     path('add/', views.add_course),          # POST /courses/add/ → إضافة كورس
     path('search/', views.course_search),    # GET /courses/search/?q=... → البحث

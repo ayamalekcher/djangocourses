@@ -18,7 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+'django_prometheus',
     # Ajoutés :
     'rest_framework',
     'corsheaders',     # <--- important
@@ -31,6 +31,12 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',   # <--- doit être AVANT CommonMiddleware
     'django.middleware.common.CommonMiddleware',
+    
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
+    ...
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
+]
+    
 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
