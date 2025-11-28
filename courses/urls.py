@@ -2,9 +2,9 @@ from django.urls import path, include   # ✅ include ajouté
 from . import views
 
 urlpatterns = [
-    # 🔹 Prometheus metrics (ex: /courses/metrics/)
+    
    
-    path('', include('django_prometheus.urls')),
+    
     # 🔹 Endpoints de ton app courses
     path('', views.list_courses, name='list_courses'),            # GET /courses/
     path('add/', views.add_course, name='add_course'),           # POST /courses/add/
