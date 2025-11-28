@@ -35,5 +35,5 @@ jobs:
       - name: Deploy to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
-          service-id: ${{ secrets.srv-d4k63vre5dus73f17f90 }}
+          service-id: ${{ secrets.srv-d4kq4hgdl3ps73fkd1ag }}
           api-key: ${{ secrets.projectcourse }}
