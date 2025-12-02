@@ -3,15 +3,18 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-^@_15gd+7!w^9%bj82n94)xba4=g@1mndy^&7s!lm3xu)4$+-8'
-DEBUG = True  # False في production
+DEBUG = True  # Mettre False en production
 
-ALLOWED_HOSTS = ["*"]  # ممكن تحدد الدومين ديال render لاحقاً
+ALLOWED_HOSTS = ["*"]  # Tu peux limiter aux domaines Render plus tard
 
 # ===============================
-# التطبيقات
+# APPLICATIONS
 # ===============================
 INSTALLED_APPS = [
-    'django_prometheus',  # Prometheus لازم يكون الأول
+    # Prometheus doit être en premier
+    'django_prometheus',
+
+    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -19,17 +22,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Tes apps
     'rest_framework',
-    'corsheaders',
     'courses',
 ]
 
 # ===============================
-# Middleware
+# MIDDLEWARE
 # ===============================
 MIDDLEWARE = [
-    'django_prometheus.middleware.PrometheusBeforeMiddleware',
-    'corsheaders.middleware.CorsMiddleware',  # خاص يكون فوق CommonMiddleware
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',  # doit être premier
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -37,13 +40,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_prometheus.middleware.PrometheusAfterMiddleware',
+
+    'django_prometheus.middleware.PrometheusAfterMiddleware',   # doit être dernier
 ]
 
 ROOT_URLCONF = 'course_service.urls'
 
 # ===============================
-# Templates
+# TEMPLATES
 # ===============================
 TEMPLATES = [
     {
@@ -63,7 +67,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'course_service.wsgi.application'
 
 # ===============================
-# Database
+# DATABASE
 # ===============================
 DATABASES = {
     'default': {
@@ -78,7 +82,7 @@ DATABASES = {
 }
 
 # ===============================
-# Langue & Timezone
+# LANGUAGE & TIMEZONE
 # ===============================
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
@@ -86,22 +90,22 @@ USE_I18N = True
 USE_TZ = True
 
 # ===============================
-# Static files
+# STATIC
 # ===============================
 STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ===============================
-# CORS
+# CORS (désactivé, car Gateway gère CORS)
 # ===============================
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5174",  # React dev server
-]
-
-CORS_ALLOW_ALL_ORIGINS = False  # مهم جداً، ما تخلطش * مع allowed origins
+# Nous n'utilisons pas django-cors-headers ici
+# CORS_ALLOW_ALL_ORIGINS = False
+# CORS_ALLOWED_ORIGINS = []
+# CORS_ALLOWED_METHODS = []
+# CORS_ALLOWED_HEADERS = []
 
 # ===============================
-# REST Framework
+# REST FRAMEWORK
 # ===============================
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
