@@ -44,6 +44,7 @@ def course_search(request):
 # -------------------- Get all student-course enrollments --------------------
 @api_view(['GET'])
 def list_student_courses(request):
-    enrollments = StudentCourse.objects.all()
-    serializer = StudentCourseSerializer(enrollments, many=True)
+    studentcourses = StudentCourse.objects.all()
+    serializer = StudentCourseSerializer(studentcourses, many=True)
     return Response(serializer.data)
+
