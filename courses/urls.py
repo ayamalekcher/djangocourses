@@ -10,4 +10,9 @@ urlpatterns = [
     path('add/', views.add_course, name='add_course'),           # POST /courses/add/
     path('search/', views.course_search, name='course_search'),  # GET /courses/search/?q=...
     path('studentcourses/add/', views.add_studentcourse, name='add_studentcourse'),  # POST /courses/studentcourses/add/
+    
+    
+    # GET /courses/studentcourses/  => تجيب كل التسجيلات
+path('studentcourses/', views.list_student_courses, name='list_student_courses'),
+
 ]
