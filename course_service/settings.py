@@ -3,18 +3,14 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-^@_15gd+7!w^9%bj82n94)xba4=g@1mndy^&7s!lm3xu)4$+-8'
-DEBUG = True  # Mettre False en production
+DEBUG = True  # False en production
 
-ALLOWED_HOSTS = ["*"]  # Tu peux limiter aux domaines Render plus tard
+ALLOWED_HOSTS = ["*"]  # Render, localhost, etc.
 
 # ===============================
 # APPLICATIONS
 # ===============================
 INSTALLED_APPS = [
-    # Prometheus doit être en premier
-    'django_prometheus',
-
-    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -31,8 +27,6 @@ INSTALLED_APPS = [
 # MIDDLEWARE
 # ===============================
 MIDDLEWARE = [
-    'django_prometheus.middleware.PrometheusBeforeMiddleware',  # doit être premier
-
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -40,8 +34,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    'django_prometheus.middleware.PrometheusAfterMiddleware',   # doit être dernier
 ]
 
 ROOT_URLCONF = 'course_service.urls'
@@ -96,15 +88,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ===============================
-# CORS (désactivé, car Gateway gère CORS)
-# ===============================
-# Nous n'utilisons pas django-cors-headers ici
-# CORS_ALLOW_ALL_ORIGINS = False
-# CORS_ALLOWED_ORIGINS = []
-# CORS_ALLOWED_METHODS = []
-# CORS_ALLOWED_HEADERS = []
-
-# ===============================
 # REST FRAMEWORK
 # ===============================
 REST_FRAMEWORK = {
@@ -112,3 +95,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ]
 }
+
+# ===============================
+# ملاحظة: لا تفعيل CORS هنا، Gateway غيضيف Access-Control-Allow-Origin
+# ===============================
