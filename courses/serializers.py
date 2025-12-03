@@ -12,9 +12,14 @@ class StudentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class StudentCourseSerializer(serializers.ModelSerializer):
-    student = StudentSerializer(read_only=True)
-    course = CourseSerializer(read_only=True)
+    student_id = serializers.PrimaryKeyRelatedField(
+        queryset=Student.objects.all(), source='student'
+    )
+    course_id = serializers.PrimaryKeyRelatedField(
+        queryset=Course.objects.all(), source='course'
+    )
 
     class Meta:
         model = StudentCourse
-        fields = '__all__'
+        fields = ['id', 'student_id', 'course_id']
+
