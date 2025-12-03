@@ -66,18 +66,11 @@ def list_studentcourses(request):
     for sc in student_courses:
         data.append({
             "id": sc.id,
-            "student": {
-                "id": sc.student.id,
-                "firstName": sc.student.firstName,
-                "lastName": sc.student.lastName,
-                "email": sc.student.email
-            },
+            "student_id": sc.student_id,  # غير ID
             "course": {
                 "id": sc.course.id,
                 "name": sc.course.name,
-                "category": sc.course.category,
-                "instructor": sc.course.instructor,
-                "schedule": sc.course.schedule
+                "category": sc.course.category
             }
         })
     return Response(data)
