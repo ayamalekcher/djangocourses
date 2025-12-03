@@ -68,13 +68,16 @@ def list_studentcourses(request):
             "id": sc.id,
             "student": {
                 "id": sc.student.id,
-                "firstName": sc.student.name.split()[0] if sc.student.name else "",
-                "lastName": " ".join(sc.student.name.split()[1:]) if len(sc.student.name.split()) > 1 else ""
+                "firstName": sc.student.firstName,
+                "lastName": sc.student.lastName,
+                "email": sc.student.email
             },
             "course": {
                 "id": sc.course.id,
                 "name": sc.course.name,
-                "category": sc.course.category
+                "category": sc.course.category,
+                "instructor": sc.course.instructor,
+                "schedule": sc.course.schedule
             }
         })
     return Response(data)
