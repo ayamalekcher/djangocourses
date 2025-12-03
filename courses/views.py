@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from .models import Course, StudentCourse
 from .serializers import CourseSerializer, StudentCourseSerializer
 
+# ---------------- COURSES ----------------
 @api_view(['GET'])
 def list_courses(request):
     courses = Course.objects.all()
@@ -16,31 +17,16 @@ def add_course(request):
         serializer.save()
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
+
+# ---------------- STUDENTCOURSE ----------------
 @api_view(['POST'])
 def add_studentcourse(request):
     serializer = StudentCourseSerializer(data=request.data)
     if serializer.is_valid():
-        try:
-            serializer.save()
-            return Response(serializer.data, status=201)
-        except Exception as e:
-            return Response({"error": str(e)}, status=400)
+        serializer.save()
+        return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
 
-# ==============================
-# دالة البحث عن الكورسات
-# ==============================
-@api_view(['GET'])
-def course_search(request):
-    query = request.GET.get('q', '')  # مثال: ?q=Python
-    courses = Course.objects.filter(name__icontains=query)  # تعديل من title -> name
-    serializer = CourseSerializer(courses, many=True)
-    return Response(serializer.data)
-
-
-
-
-# -------------------- Get all student-course enrollments --------------------
 @api_view(['GET'])
 def list_studentcourses(request):
     student_courses = StudentCourse.objects.all()
@@ -50,8 +36,8 @@ def list_studentcourses(request):
             "id": sc.id,
             "student": {
                 "id": sc.student.id,
-                "firstName": sc.student.firstName,
-                "lastName": sc.student.lastName
+                "name": sc.student.name,
+                "email": sc.student.email
             },
             "course": {
                 "id": sc.course.id,
@@ -60,5 +46,3 @@ def list_studentcourses(request):
             }
         })
     return Response(data)
-
-
