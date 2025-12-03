@@ -13,6 +13,6 @@ urlpatterns = [
     
     
     # GET /courses/studentcourses/  => تجيب كل التسجيلات
-path('studentcourses/', views.list_student_courses, name='list_student_courses'),
+path('studentcourses/', views.list_studentcourses, name='list_student_courses'),
 
 ]
