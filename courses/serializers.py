@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import StudentCourse, Student, Course
+from .models import StudentCourse, Course, Student
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,16 +12,16 @@ class StudentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class StudentCourseSerializer(serializers.ModelSerializer):
-    # استخدام PrimaryKeyRelatedField للـ POST
+    student = StudentSerializer(read_only=True)
+    course = CourseSerializer(read_only=True)
+
     student_id = serializers.PrimaryKeyRelatedField(
-        queryset=Student.objects.all(),
-        source='student'
+        queryset=Student.objects.all(), source='student', write_only=True
     )
     course_id = serializers.PrimaryKeyRelatedField(
-        queryset=Course.objects.all(),
-        source='course'
+        queryset=Course.objects.all(), source='course', write_only=True
     )
 
     class Meta:
         model = StudentCourse
-        fields = ['id', 'student_id', 'course_id']
+        fields = ['id', 'student', 'course', 'student_id', 'course_id']

@@ -1,28 +1,26 @@
-from rest_framework import serializers
-from .models import StudentCourse, Course, Student
+from django.db import models
 
-class CourseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Course
-        fields = '__all__'
+class Student(models.Model):
+    firstName = models.CharField(max_length=100)
+    lastName = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
 
-class StudentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Student
-        fields = '__all__'
+    def __str__(self):
+        return f"{self.firstName} {self.lastName}"
 
-class StudentCourseSerializer(serializers.ModelSerializer):
-    student = StudentSerializer(read_only=True)
-    course = CourseSerializer(read_only=True)
+class Course(models.Model):
+    name = models.CharField(max_length=100)
+    instructor = models.CharField(max_length=100)
+    category = models.CharField(max_length=100)
+    schedule = models.CharField(max_length=100)
 
-    # قبول IDs عند الإضافة فقط
-    student_id = serializers.PrimaryKeyRelatedField(
-        queryset=Student.objects.all(), source='student', write_only=True
-    )
-    course_id = serializers.PrimaryKeyRelatedField(
-        queryset=Course.objects.all(), source='course', write_only=True
-    )
+    def __str__(self):
+        return self.name
 
-    class Meta:
-        model = StudentCourse
-        fields = ['id', 'student', 'course', 'student_id', 'course_id']
+class StudentCourse(models.Model):
+    student_id = models.IntegerField()  # ID men Spring Boot
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="enrollments")
+
+
+    def __str__(self):
+        return f"Student {self.student} enrolled in {self.course}"
