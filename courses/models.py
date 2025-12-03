@@ -1,24 +1,28 @@
-from django.db import models
+from rest_framework import serializers
+from .models import StudentCourse, Course, Student
 
-class Student(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
+class CourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = '__all__'
 
-    def __str__(self):
-        return self.name
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = '__all__'
 
-class Course(models.Model):
-    name = models.CharField(max_length=100)
-    instructor = models.CharField(max_length=100)
-    category = models.CharField(max_length=100)
-    schedule = models.CharField(max_length=100)
+class StudentCourseSerializer(serializers.ModelSerializer):
+    student = StudentSerializer(read_only=True)
+    course = CourseSerializer(read_only=True)
 
-    def __str__(self):
-        return self.name
+    # قبول IDs عند الإضافة فقط
+    student_id = serializers.PrimaryKeyRelatedField(
+        queryset=Student.objects.all(), source='student', write_only=True
+    )
+    course_id = serializers.PrimaryKeyRelatedField(
+        queryset=Course.objects.all(), source='course', write_only=True
+    )
 
-class StudentCourse(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="enrollments")
-
-    def __str__(self):
-        return f"Student {self.student.name} enrolled in {self.course.name}"
+    class Meta:
+        model = StudentCourse
+        fields = ['id', 'student', 'course', 'student_id', 'course_id']

@@ -16,7 +16,6 @@ def add_course(request):
         serializer.save()
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
-
 @api_view(['POST'])
 def add_studentcourse(request):
     serializer = StudentCourseSerializer(data=request.data)
